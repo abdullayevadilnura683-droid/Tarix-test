@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Davlatchilik tarixi — Interaktiv test</title>
+<style>
+:root{--bg:#0b1020;--panel:#141c32;--panel2:#1a2540;--text:#f3f6ff;--muted:#aab6d3;--accent:#7c9cff;--good:#35d49a;--bad:#ff6b83;--line:#2c3958}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--text);background:radial-gradient(ellipse at 15% 5%,#233b72 0,transparent 38%),radial-gradient(ellipse at 90% 20%,#38265e 0,transparent 32%),linear-gradient(145deg,#080d1a,#111a31 60%,#0a1021);min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.17;background-image:linear-gradient(#91a8ff22 1px,transparent 1px),linear-gradient(90deg,#91a8ff22 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(to bottom,#000,transparent 85%)}
+.wrap{max-width:900px;margin:auto;padding:24px 16px 48px;position:relative}
+.hero{padding:26px 22px;border:1px solid #ffffff20;border-radius:24px;background:linear-gradient(120deg,#19294aee,#30244fee);box-shadow:0 18px 55px #0005;margin-bottom:18px}
+.eyebrow{font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:#9eb8ff;font-weight:800}
+h1{font-size:clamp(1.7rem,5vw,2.7rem);line-height:1.08;margin:10px 0}
+.subtitle{color:#c2cce5;line-height:1.6;margin:0}
+.topline{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-top:20px}
+.pill{border:1px solid #ffffff20;background:#ffffff0d;border-radius:999px;padding:8px 12px;font-size:.88rem;color:#dbe4ff}
+.progress{height:8px;background:#ffffff13;border-radius:99px;overflow:hidden;margin-top:14px}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#79a4ff,#b28cff);transition:width .25s}
+.card{background:linear-gradient(150deg,#18233bed,#111a2ded);border:1px solid #ffffff1c;border-radius:22px;padding:clamp(18px,4vw,30px);box-shadow:0 15px 40px #0003;backdrop-filter:blur(12px)}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+.qnum{font-size:.82rem;font-weight:800;color:#a9bdff;letter-spacing:.08em}
+.tag{font-size:.78rem;color:#c3cde7;background:#ffffff0b;border:1px solid #ffffff17;border-radius:999px;padding:6px 10px}
+.question{font-size:clamp(1.15rem,3vw,1.55rem);line-height:1.45;font-weight:750;margin:0 0 22px}
+.options{display:grid;gap:11px}
+.option{width:100%;display:flex;gap:12px;align-items:center;text-align:left;border:1px solid #354363;border-radius:15px;background:#ffffff06;color:var(--text);padding:14px 15px;font-size:1rem;line-height:1.45;cursor:pointer;transition:transform .15s,border-color .15s,background .15s}
+.option:hover{transform:translateY(-1px);border-color:#8aa7ff;background:#8aa7ff12}
+.letter{flex:0 0 34px;width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#273653;color:#cdd9ff;font-weight:850}
+.option.selected{border-color:#8aa7ff;background:#668bff24;box-shadow:0 0 0 2px #668bff18}
+.option.correct{border-color:var(--good);background:#1b8b6830}
+.option.correct .letter{background:#1d8d6b;color:#fff}
+.option.wrong{border-color:var(--bad);background:#b9365130}
+.option.wrong .letter{background:#a82f4b;color:#fff}
+.option:disabled{cursor:default;transform:none}
+.feedback{min-height:27px;margin-top:15px;font-weight:700}
+.feedback.good{color:var(--good)}.feedback.bad{color:#ff9aac}
+.actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:22px}
+.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:800;font-size:.95rem;cursor:pointer}
+.btn.primary{color:#10162b;background:linear-gradient(100deg,#9bb7ff,#c4a4ff)}
+.btn.secondary{color:#e3eaff;background:#ffffff0c;border:1px solid #ffffff25}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.results{display:none;text-align:center}
+.score{font-size:3.6rem;font-weight:900;letter-spacing:-.06em;margin:10px 0}
+.result-msg{color:#c4cee8;line-height:1.6}
+.review{margin-top:22px;text-align:left;display:grid;gap:10px}
+.review-item{padding:14px;border:1px solid #ffffff19;border-radius:13px;background:#ffffff05}
+.review-item strong{display:block;margin-bottom:6px}
+.review-item .correct-text{color:var(--good)}.review-item .your-text{color:#ff9aac}
+.footer{text-align:center;color:#7f8cab;font-size:.82rem;margin-top:20px}
+@media(max-width:520px){.wrap{padding:14px 11px 32px}.hero{padding:21px 17px}.option{padding:12px;font-size:.96rem}.letter{flex-basis:31px;width:31px;height:31px}.actions .btn{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Interaktiv bilim sinovi · 20 savol</div>
+    <h1>Davlatchilik tarixi</h1>
+    <p class="subtitle">Javob variantini bosing, tanlovingiz darhol belgilanadi. Oxirida natijangiz va xatolaringizni ko‘rasiz.</p>
+    <div class="topline"><span class="pill" id="counter">1 / 20-savol</span><span class="pill" id="scoreLive">To‘g‘ri: 0</span></div>
+    <div class="progress"><span id="progressBar"></span></div>
+  </header>
+  <main class="card" id="quiz">
+    <div class="qhead"><span class="qnum" id="qnum">SAVOL 01</span><span class="tag">Bitta javobni tanlang</span></div>
+    <h2 class="question" id="question"></h2>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+    <div class="actions"><button class="btn secondary" id="prevBtn">← Oldingi</button><button class="btn primary" id="nextBtn" disabled>Keyingi →</button></div>
+  </main>
+  <section class="card results" id="results">
+    <div class="eyebrow">Test yakunlandi</div><h2>Natijangiz</h2><div class="score" id="finalScore">0/20</div><p class="result-msg" id="resultMsg"></p>
+    <div class="actions"><button class="btn secondary" id="reviewBtn">Xatolarni ko‘rish</button><button class="btn primary" id="restartBtn">Qayta boshlash ↻</button></div>
+    <div class="review" id="review"></div>
+  </section>
+  <div class="footer">Manba: siz yuborgan “Davlatchilik tarixi — test” PDF fayli</div>
+</div>
+<script>
+const questions = [
+["Quyidagilardan qaysi biri davlatning asosiy belgisi emas?",["Urug‘chilik aloqalari","Milliy suverenitet","Hududiy birlik","Soliq tizimi"],0,"Davlat paydo bo‘lishi bilan urug‘-qabilachilik aloqalaridan etnik va sinfiy umumiylikka o‘tilgan."],
+["«Sharq yo‘li»da iqtisodiyotning asosi nima edi?",["Dengiz savdosi","Xususiy mulkchilik","Ko‘chmanchi chorvachilik","Irrigatsiya dehqonchiligi"],3,"Yer va irrigatsiya inshootlari davlat mulki bo‘lgan, dehqonchilik jamoasi esa jamiyatning birlamchi yacheykasi edi."],
+["Jarqo‘tonda qanday tuzilma qaror topgan?",["Kushon imperiyasi","Embrional shakldagi davlatga o‘xshash tuzilma","Turkiy hoqonlik","Xorazmshohlar davlati"],1,"Bu miloddan avvalgi II ming yillikning ikkinchi yarmida O‘zbekiston janubida yuz bergan."],
+["Markaziy Osiyo Ahmoniylar davlati tarkibida qaysi yillarda bo‘lgan?",["Mil. avv. 100 – mil. 100","Mil. avv. 250–100","Mil. avv. 539–330","Mil. avv. 330–250"],2,"Bu davr mahalliy davlatchilik rivojidagi tanaffus bo‘lgan."],
+["Massagetlar malikasi To‘maris Kir II ni qaysi yilda mag‘lub etgan?",["Mil. avv. 330-yil","Mil. avv. 530-yil","Mil. avv. 519-yil","Mil. avv. 250-yil"],1,"Jangda Kir II o‘ldirilgan. Bu urush haqida Gerodot yozib qoldirgan."],
+["Doro I qo‘shinini cho‘lga boshlab borib halokatga uchratgan sak qahramoni kim?",["Temur Malik","Sparganis","Spitamen","Shiroq"],3,"Shiroq fors qo‘shinini cho‘l ichkarisiga boshlab borgan."],
+["Kushon podshosi Kanishka davrida poytaxt qayerga ko‘chirilgan?",["Dalvarzin","Qang‘a","Samarqand","Peshovar"],3,"PDF izohida Kanishka davridan boshlab davlat dini buddaviylik bo‘lgani qayd etilgan."],
+["Turkiy hoqonlikka kim va qaysi yilda asos solgan?",["Mazdak, 529-yil","Bumin, 551-yil","Diodot, mil. avv. 250-yil","Kidara, 456-yil"],1,"Bumin jujanlar xonini mag‘lub etib, Turkiy hoqonlikka asos solgan."],
+["Amir Temur markazlashgan davlatni qaysi yillarda boshqargan?",["1405–1447","1409–1449","1370–1405","1469–1506"],2,"U 1370–1405-yillarda hukmronlik qilgan."],
+["XVIII asrga kelib o‘zbek davlatchiligi qaysi uch markazga bo‘linib ketgan?",["Samarqand, Termiz, Xorazm","Buxoro, Hirot, Balx","Toshkent, Farg‘ona, Qarshi","Buxoro, Xiva, Qo‘qon"],3,"Uch markaz: Buxoro, Xiva va Qo‘qon."],
+["Rossiya istilosining birinchi bosqichida (1847–1865) qaysi shahar bosib olindi?",["Buxoro","Toshkent","Samarqand","Xiva"],1,"PDF javoblar qismida Toshkent ko‘rsatilgan."],
+["Jaloliddin Manguberdi mo‘g‘ul istilochilariga qarshi qaysi yillarda kurashgan?",["1501–1601","1370–1405","1847–1865","1219–1231"],3,"U Xorazmshohlar davlatining so‘nggi hukmdori edi."],
+["Mazdak qaysi yilda qatl etilgan?",["353-yil","456-yil","529-yil","551-yil"],2,"PDF izohida Mazdak ta’limoti «zan, zar, zamin» tengligi g‘oyasiga asoslangani yozilgan."],
+["Qang‘ hukmdorlari yozni qaysi shaharda o‘tkazishgan?",["Qang‘da","Peshovarda","O‘trorda","Dalvarzinda"],2,"PDF izohiga ko‘ra, qishni Qang‘ shahrida o‘tkazishgan."],
+["Dovon (Farg‘ona) davlatining poytaxti qaysi shahar bo‘lgan?",["Dalvarzin","O‘tror","Peshovar","Ershi (Marhamat)"],3,"Dovon o‘zining «samoviy otlari» bilan mashhur bo‘lgan."],
+["Yunon-Baqtriya davlati Salavkiylardan ajralib chiqqanda qo‘zg‘olonga kim boshchilik qilgan?",["Diodot","Kanishka","Bumin","Kujula Kadfiz"],0,"PDF izohida qo‘zg‘olonni Baqtriya aholisi ham qo‘llab-quvvatlagani aytilgan."],
+["IX asrda arab xalifaligiga qarshi kurashlar natijasida qaysi davlatlar tashkil topdi?",["Tohiriylar va Somoniylar","Temuriylar va Boburiylar","Kushonlar va Eftalitlar","Shayboniylar va Ashtarxoniylar"],0,"Mahalliy sulola vakillarining mustaqillikka intilishi kuchaygan."],
+["Boburiylar sulolasi Hindistonda qaysi jangdan so‘ng hukmronlikni boshlagan?",["1370-yilgi Samarqand jangi","1525-yilgi Panipat jangi","1219-yilgi Xorazm jangi","1501-yilgi Buxoro jangi"],1,"Zahiriddin Muhammad Bobur shimoliy Hindistonni egallagan."],
+["Shayboniylar hukmronligi qaysi yildan boshlangan?",["1920-yil","1501-yil","1747-yil","1370-yil"],1,"PDF javoblar qismida Shayboniylar 1601-yilgacha hukmronlik qilgani yozilgan."],
+["«Jaloliddin Manguberdi» ordeni qaysi yili ta’sis etilgan?",["1999-yil 22-oktyabr","1998-yil 24-sentyabr","1996-yil","2000-yil 30-avgust"],3,"PDF javoblar qismida 2000-yil 30-avgust deb berilgan."]
+];
+let current=0, answers=Array(questions.length).fill(null), checked=Array(questions.length).fill(false);
+const $=id=>document.getElementById(id);
+function render(){
+ const q=questions[current]; $('counter').textContent=`${current+1} / ${questions.length}-savol`;
+ $('qnum').textContent=`SAVOL ${String(current+1).padStart(2,'0')}`;$('question').textContent=q[0];
+ $('progressBar').style.width=`${current/questions.length*100}%`;
+ $('scoreLive').textContent=`To‘g‘ri: ${answers.reduce((n,a,i)=>n+(a===questions[i][2]?1:0),0)}`;
+ $('options').innerHTML='';
+ q[1].forEach((op,i)=>{const b=document.createElement('button');b.className='option';b.type='button';
+  const letter=document.createElement('span');letter.className='letter';letter.textContent='ABCD'[i];const txt=document.createElement('span');txt.textContent=op;b.append(letter,txt);
+  if(answers[current]===i)b.classList.add('selected');
+  if(checked[current]){b.disabled=true;if(i===q[2])b.classList.add('correct');else if(answers[current]===i)b.classList.add('wrong');}
+  b.addEventListener('click',()=>{if(checked[current])return;answers[current]=i;checked[current]=true;render();});$('options').appendChild(b);
+ });
+ $('feedback').className='feedback';$('feedback').textContent='';
+ if(checked[current]){const ok=answers[current]===q[2];$('feedback').classList.add(ok?'good':'bad');$('feedback').textContent=(ok?'✓ To‘g‘ri! ':'✗ Noto‘g‘ri. ')+`To‘g‘ri javob: ${'ABCD'[q[2]]}) ${q[1][q[2]]}`;}
+ $('prevBtn').disabled=current===0;$('nextBtn').disabled=!checked[current];$('nextBtn').textContent=current===questions.length-1?'Natijani ko‘rish':'Keyingi →';
+}
+$('prevBtn').onclick=()=>{if(current>0){current--;render()}};
+$('nextBtn').onclick=()=>{if(!checked[current])return;if(current<questions.length-1){current++;render()}else showResults()};
+function showResults(){ $('quiz').style.display='none';$('results').style.display='block';$('progressBar').style.width='100%';const score=answers.reduce((n,a,i)=>n+(a===questions[i][2]?1:0),0);$('finalScore').textContent=`${score}/${questions.length}`;$('resultMsg').textContent=score===20?'Ajoyib! Barcha savollarga to‘g‘ri javob berdingiz.':score>=15?'Juda yaxshi! Xatolarni ko‘rib, yana bir marta sinab ko‘ring.':score>=10?'Yaxshi urinish. Xato javoblarni takrorlab, bilimingizni mustahkamlang.':'Mashq qilishda davom eting — qayta urinish orqali natijangizni oshirasiz.';buildReview(false)}
+function buildReview(force){$('review').innerHTML='';$('reviewBtn').textContent=force?'Javoblarni yashirish':'Xatolarni ko‘rish';if(!force){questions.forEach((q,i)=>{if(answers[i]===q[2])return;const d=document.createElement('div');d.className='review-item';const title=document.createElement('strong');title.textContent=`${i+1}. ${q[0]}`;const yours=document.createElement('div');yours.className='your-text';yours.textContent=`Sizning javobingiz: ${answers[i]===null?'Belgilanmagan':('ABCD'[answers[i]]+') '+q[1][answers[i]])}`;const right=document.createElement('div');right.className='correct-text';right.textContent=`To‘g‘ri javob: ${'ABCD'[q[2]]}) ${q[1][q[2]]}`;const exp=document.createElement('p');exp.textContent=q[3];d.append(title,yours,right,exp);$('review').appendChild(d)})}}
+let reviewOpen=false;$('reviewBtn').onclick=()=>{reviewOpen=!reviewOpen;buildReview(reviewOpen)};
+$('restartBtn').onclick=()=>{current=0;answers=Array(questions.length).fill(null);checked=Array(questions.length).fill(false);$('results').style.display='none';$('quiz').style.display='block';render();window.scrollTo({top:0,behavior:'smooth'})};
+render();
+</script>
+</body></html>
